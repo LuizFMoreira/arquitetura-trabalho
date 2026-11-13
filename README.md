@@ -9,7 +9,7 @@ Projeto de arquitetura Server-Driven UI que preserva **compatibilidade, seguran√
 | Luiz F. Moreira | [@LuizFMoreira](https://github.com/LuizFMoreira) |
 | _a preencher_ | [@karenjoilly11](https://github.com/karenjoilly11) |
 | _a preencher_ | [@joaovictorz10](https://github.com/joaovictorz10) |
-| _a preencher_ | [@Davii13](https://github.com/Davii13) |
+| Davi Nunes| [@Davii13](https://github.com/Davii13) |
 
 ## Estrutura
 ```
