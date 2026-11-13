@@ -25,16 +25,16 @@ Objetivo: 25/25. A nota premia **coerência** entre requisitos, diagramas, decis
 ## Fases
 
 ### Fase 0 — Setup (hoje)
-- [ ] Todos os 4 aceitaram o convite do repositório.
-- [ ] Estrutura de pastas + README + este plano commitados.
-- [ ] Definir **cenário concreto** do exemplo (sugestão: jornada de *contratação de serviço* com formulário e pagamento, tela crítica).
+- [ ] Todos os 4 aceitaram o convite do repositório (faltam Davii13 e a 4ª pessoa).
+- [x] Estrutura de pastas + README + este plano commitados.
+- [x] Cenário concreto definido: jornada de *contratação de serviço* com formulário e pagamento (tela crítica). Equipe ainda precisa confirmar.
 - [ ] Definir formato dos slides (sugestão: Marp ou Google Slides → PDF).
 - [ ] Dividir responsáveis (abaixo).
 
 ### Fase 1 — Fundamentos
-- [ ] `01-problema-requisitos`: RF/RNF, restrições, hipóteses e riscos.
+- [x] `01-problema-requisitos`: RF/RNF, restrições, hipóteses, riscos e glossário (revisado após avaliação do professor).
 - [ ] `referencias.md` com fontes verificadas (rodar `analista-mercado`).
-- [ ] Glossário (SDUI, BFF, capability, contrato, fallback).
+- [ ] Revisão do `arquiteto-senior` sobre o 01.
 - **Gate:** `professor-avaliador` na fase.
 
 ### Fase 2 — Núcleo da arquitetura
