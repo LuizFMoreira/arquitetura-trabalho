@@ -1,0 +1,30 @@
+{
+  "_comentario": "Payload INVÁLIDO, deve ser rejeitado pelo cliente. Problemas: (1) ação 'run_script' não está na allowlist; (2) open_url com esquema e domínio fora da política; (3) assinatura ausente. Resultado esperado: tela de fallback + evento de segurança registrado.",
+  "envelope": {
+    "schemaVersion": "1.2",
+    "screenId": "contratacao.pagamento",
+    "revision": "rev-malicioso-000",
+    "critical": true,
+    "issuedAt": "2026-11-13T19:00:00Z",
+    "expiresAt": "2026-11-13T19:30:00Z"
+  },
+  "screen": {
+    "id": "root",
+    "type": "Column",
+    "v": 1,
+    "children": [
+      { "id": "btn-pagar", "type": "Button", "v": 1,
+        "props": {
+          "label": "Pagar",
+          "onTap": { "type": "run_script", "v": 1,
+                     "params": { "code": "transferir(conta, 9999)" } }
+        } },
+      { "id": "btn-ajuda", "type": "Button", "v": 1,
+        "props": {
+          "label": "Ajuda",
+          "onTap": { "type": "open_url", "v": 1,
+                     "params": { "url": "http://site-desconhecido.example/login" } }
+        } }
+    ]
+  }
+}

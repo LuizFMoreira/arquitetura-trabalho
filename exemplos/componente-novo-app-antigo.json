@@ -1,0 +1,37 @@
+{
+  "_comentario": "Passo opcional novo: upload de foto do local. App antigo não conhece PhotoUpload v1 nem a capacidade 'camera.capture.v2'. Ele usa o fallback do próprio componente (TextField de descrição) e a tela segue funcionando.",
+  "envelope": {
+    "schemaVersion": "1.3",
+    "screenId": "contratacao.dados",
+    "revision": "rev-2026-11-20-004",
+    "critical": false,
+    "issuedAt": "2026-11-20T10:00:00Z",
+    "expiresAt": "2026-11-20T10:30:00Z",
+    "requires": { "capabilities": [] },
+    "signature": { "alg": "ES256", "kid": "sdui-2026-11", "value": "<assinatura-destacada>" }
+  },
+  "screen": {
+    "id": "root",
+    "type": "Column",
+    "v": 1,
+    "children": [
+      { "id": "campo-endereco", "type": "TextField", "v": 2,
+        "props": { "name": "endereco", "label": "Endereço", "required": true } },
+      {
+        "id": "foto-local",
+        "type": "PhotoUpload",
+        "v": 1,
+        "optional": true,
+        "requires": { "capabilities": ["camera.capture.v2"] },
+        "props": { "name": "fotoLocal", "label": "Foto do local" },
+        "fallback": {
+          "id": "foto-local-descricao",
+          "type": "TextField",
+          "v": 2,
+          "props": { "name": "descricaoLocal", "label": "Descreva o local" }
+        }
+      }
+    ]
+  },
+  "fallback": { "screenId": "contratacao.dados.embutida" }
+}

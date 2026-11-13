@@ -1,0 +1,35 @@
+{
+  "envelope": {
+    "schemaVersion": "1.2",
+    "screenId": "contratacao.dados",
+    "revision": "rev-2026-11-13-001",
+    "critical": false,
+    "issuedAt": "2026-11-13T19:00:00Z",
+    "expiresAt": "2026-11-13T19:30:00Z",
+    "requires": { "capabilities": [] },
+    "signature": { "alg": "ES256", "kid": "sdui-2026-11", "value": "<assinatura-destacada>" }
+  },
+  "screen": {
+    "id": "root",
+    "type": "Column",
+    "v": 1,
+    "props": { "spacing": "md" },
+    "children": [
+      { "id": "titulo", "type": "Text", "v": 1,
+        "props": { "text": "Dados do serviço", "style": "title" } },
+      { "id": "campo-endereco", "type": "TextField", "v": 2,
+        "props": { "name": "endereco", "label": "Endereço", "required": true } },
+      { "id": "campo-data", "type": "DatePicker", "v": 1,
+        "props": { "name": "data", "label": "Data desejada" } },
+      { "id": "btn-continuar", "type": "Button", "v": 1,
+        "props": {
+          "label": "Continuar",
+          "onTap": {
+            "type": "navigate", "v": 1,
+            "params": { "screenId": "contratacao.pagamento" }
+          }
+        } }
+    ]
+  },
+  "fallback": { "screenId": "contratacao.dados.embutida" }
+}
