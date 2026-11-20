@@ -43,6 +43,8 @@ Resumo para a defesa. A decisão completa, com trade-offs, entra em `06-decisoes
 Será usado em contrato, exemplos, falhas e rollout. **Jornada de contratação de serviço**: o usuário escolhe um serviço, preenche um formulário de dados e confirma o pagamento. A tela de **pagamento é crítica** (H4). O exemplo de mudança sem nova publicação (doc 05) adiciona um passo opcional ao formulário.
 
 ## 7. Requisitos funcionais
+
+RF1–RF5 são mínimos do enunciado. RF6–RF8 são extensões propostas pelo grupo para tornar validação, capacidades ausentes e cache verificáveis.
 Prioridade: **M** = deve ter, **S** = deveria ter.
 
 | ID | Requisito | Prio. | Observação de projeto |
@@ -57,13 +59,15 @@ Prioridade: **M** = deve ter, **S** = deveria ter.
 | RF8 | Manter a **última definição válida** em cache e usá-la quando o servidor falhar ou estiver sem rede | S | Base do rollback no cliente e do comportamento offline |
 
 ## 8. Requisitos não funcionais
+
+RNF1–RNF4 são mínimos do enunciado; RNF5 é uma meta adicional proposta pelo grupo.
 Valores numéricos são **hipóteses** (H5): não foram medidos e servem de meta de projeto.
 
 | ID | Requisito | Critério de aceitação | Verificação |
 |---|---|---|---|
 | RNF1 | Compatibilidade retroativa de contratos | Nenhuma mudança de contrato quebra versões do app ainda suportadas; campos desconhecidos são ignorados | Testes de contrato contra as versões suportadas |
 | RNF2 | Limitar execução não autorizada a partir do servidor | 100% das ações executadas pertencem à allowlist; payload sem código executável; falha de assinatura ou schema bloqueia a renderização | Testes negativos com payloads maliciosos; log de ações rejeitadas |
-| RNF3 | Rollback rápido | Config problemática revertida para a maior parte dos usuários em até **5 min** (hipótese), sem publicar app | Simulação de rollback; kill switch; TTL de cache |
+| RNF3 | Rollback rápido | Config problemática deixa de ser servida e de aparecer para a maior parte dos usuários online que rebuscam a tela em até **5 min** (hipótese), sem publicar app | Simulação de rollback; kill switch; medição de exposição no cliente |
 | RNF4 | Medir erros de renderização, desempenho e disponibilidade | Métricas por tela, componente, versão e plataforma, com alerta e ação associada | Painel e alertas em `08-metricas-alertas` |
 | RNF5 | Desempenho aceitável da obtenção e renderização | Meta inicial: p95 abaixo de **1 s** (hipótese) para obter e renderizar uma tela | Medição em protótipo ou piloto |
 
@@ -125,19 +129,19 @@ Valores numéricos são **hipóteses** (H5): não foram medidos e servem de meta
 
 | Requisito | Componente(s) | Decisão | Falha | Métrica |
 |---|---|---|---|---|
-| RF1 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RF2 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RF3 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RF4 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RF5 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RF6 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RF7 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RF8 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RNF1 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RNF2 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RNF3 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RNF4 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
-| RNF5 | _TODO_ | _TODO_ | _TODO_ | _TODO_ |
+| RF1 | BFF, cliente | D1, D2 | F4 | M3, M4 |
+| RF2 | Catálogo, renderizador | D1, D3 | F1 | M1, M2 |
+| RF3 | Rollout, BFF | D1, D2 | F5 | M1, M6 |
+| RF4 | Validador, API de negócio | D4 | F2 | M7 |
+| RF5 | Cache, tela embutida | D3 | F1, F3, F4 | M2 |
+| RF6 | Validador do app | D2, D4 | F2, F5 | M1 |
+| RF7 | Catálogo, negociação | D2, D3 | F1 | M2 |
+| RF8 | Cache local | D3 | F4, F5 | M2, M6 |
+| RNF1 | Catálogo, matriz de contrato | D1, D2 | F1, F5 | M1, M2 |
+| RNF2 | Validador, API de negócio | D4 | F2 | M7 |
+| RNF3 | Rollout, kill switch | D2, D3 | F3, F5 | M6 |
+| RNF4 | Observabilidade | D2 | F1–F5 | M1–M7 |
+| RNF5 | BFF, renderizador | D2 | F4 | M3, M4 |
 
 ## 16. Pendências
 - [ ] Equipe confirmar o cenário de referência (§6) e as hipóteses H1–H4.

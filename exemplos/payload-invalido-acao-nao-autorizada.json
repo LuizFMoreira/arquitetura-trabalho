@@ -1,5 +1,5 @@
 {
-  "_comentario": "Payload INVÁLIDO, deve ser rejeitado pelo cliente. Problemas: (1) ação 'run_script' não está na allowlist; (2) open_url com esquema e domínio fora da política; (3) assinatura ausente. Resultado esperado: tela de fallback + evento de segurança registrado.",
+  "_comentario": "Payload INVÁLIDO, deve ser rejeitado pelo cliente. Problemas: ação 'run_script' fora da allowlist, URL fora da política, assinatura ausente e prazo vencido. Resultado esperado: tela de fallback + evento de segurança registrado.",
   "envelope": {
     "schemaVersion": "1.2",
     "screenId": "contratacao.pagamento",

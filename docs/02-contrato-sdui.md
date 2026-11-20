@@ -35,7 +35,7 @@ Com isso, o servidor não envia `PhotoUpload` a quem não o conhece. O fallback 
 | `critical` | sim | `true` para telas críticas (ex.: pagamento): política mais restrita (D3) |
 | `issuedAt` / `expiresAt` | sim | Validade; o cliente rejeita payload expirado e usa o cache conforme RF8 |
 | `requires.capabilities` | não | Capacidades exigidas pela tela inteira |
-| `signature` | sim | Assinatura destacada (`alg`, `kid`, `value`) sobre o payload canônico |
+| `signature` | sim | Assinatura (`alg`, `kid`, `value`) do JSON canônico com o campo `signature` removido; cobre envelope, `screen` e `fallback` |
 | `fallback.screenId` | sim para telas críticas | Tela de fallback embutida no app a usar se nada funcionar |
 
 Exemplo completo: [`exemplos/tela-contratacao-valida.json`](../exemplos/tela-contratacao-valida.json).
@@ -74,6 +74,8 @@ Exemplo completo: [`exemplos/tela-contratacao-valida.json`](../exemplos/tela-con
 | `PaymentSummary` | 1 | Resumo e confirmação de pagamento (crítico) | `submit_form` |
 
 O catálogo é **definido e versionado no repositório do app**; cada release declara o que suporta (`catalog` da §2). Os componentes são limitados em *quantidade e tipo*, e novos tipos exigem release do app.
+
+Limites propostos para a árvore, ainda não medidos (H5): 12 níveis, 200 nós e 256 KiB por tela. Publicador e app aplicam os mesmos limites.
 
 ## 5. Ações
 Ações são **tipadas**. O payload só referencia uma ação do catálogo e passa parâmetros validados; nunca descreve *como* executar.
@@ -126,15 +128,17 @@ Regras de governança:
 
 ## 8. Validação no cliente (RF6)
 Antes de renderizar, nesta ordem:
-1. Assinatura válida e `kid` conhecido.
+1. Assinatura válida e `kid` conhecido. O BFF assina a resposta final após segmentação, usando canonização RFC 8785; a chave pública correspondente já está no app.
 2. `expiresAt` não vencido.
 3. `schemaVersion` suportada.
 4. Estrutura válida contra o schema do envelope e dos componentes.
-5. Limites: profundidade, número de nós e tamanho total do payload (valores a definir, como hipótese).
+5. Limites: profundidade, número de nós e tamanho total do payload (12 níveis, 200 nós e 256 KiB propostos como hipótese).
 6. Ações na allowlist e com parâmetros válidos.
 7. Capacidades exigidas disponíveis.
 
 Qualquer falha em 1–3 → descarta o payload e usa o cache (RF8) ou o fallback. Falhas em 4–7 podem ser resolvidas por componente (§6) ou levar à tela de fallback.
+
+O cache só é elegível se a definição foi previamente validada, pertence à mesma tela e contexto, ainda não passou de `expiresAt` e não está revogada. Para tela de pagamento, a verificação de revogação exige rede; se falhar, usa-se a tela embutida. Os exemplos JSON têm assinatura fictícia e datas ilustrativas, portanto demonstram a forma do contrato, não uma resposta verificável em produção.
 
 ## 9. O que o contrato propositalmente **não** permite
 Para responder "qual o limite entre flexibilidade e complexidade":

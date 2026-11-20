@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Desafio 09 — Arquitetura SDUI</title>
+<style>
+@page { size: 13.333in 7.5in; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; color: #173044; background: #fff; }
+.slide { width: 1280px; height: 720px; padding: 54px 70px 52px; page-break-after: always; break-after: page; position: relative; overflow: hidden; background: #fff; }
+.slide:last-child { page-break-after: auto; break-after: auto; }
+.dark { background: #0b2535; color: white; }
+.eyebrow { color: #007e79; font-size: 19px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+.dark .eyebrow { color: #65d7cb; }
+h1 { font-size: 56px; line-height: 1.08; letter-spacing: -1.5px; margin: 0 0 28px; max-width: 1080px; }
+h2 { font-size: 38px; line-height: 1.1; letter-spacing: -0.6px; margin: 0 0 30px; }
+h3 { font-size: 25px; margin: 0 0 12px; color: #007e79; }
+p, li { font-size: 25px; line-height: 1.3; margin: 0 0 15px; }
+ul { margin: 0; padding-left: 28px; }
+.lead { font-size: 30px; line-height: 1.3; max-width: 1020px; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+.cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.rule { border-top: 3px solid #1aa59a; padding-top: 18px; }
+.rulegray { border-top: 2px solid #cbd7dd; padding-top: 15px; }
+.callout { border-left: 7px solid #e7a446; padding-left: 22px; margin-top: 34px; font-size: 27px; line-height: 1.26; }
+.sub { color: #526a77; font-size: 21px; }
+.dark .sub { color: #c7dadf; }
+.small { font-size: 20px; line-height: 1.26; }
+.tiny { font-size: 17px; line-height: 1.22; }
+.num { position: absolute; right: 68px; bottom: 25px; font-size: 16px; color: #778d98; }
+.dark .num { color: #9db5bf; }
+table { width: 100%; border-collapse: collapse; font-size: 20px; line-height: 1.2; }
+th { color: #007e79; text-align: left; font-size: 18px; border-bottom: 3px solid #1aa59a; padding: 8px 10px 12px 0; }
+td { border-bottom: 1px solid #cbd7dd; vertical-align: top; padding: 12px 14px 12px 0; }
+.dense td { padding: 8px 12px 8px 0; font-size: 18px; }
+.flow { display: flex; align-items: stretch; gap: 12px; margin-top: 32px; }
+.step { flex: 1; border-top: 4px solid #1aa59a; padding-top: 18px; font-size: 21px; line-height: 1.25; }
+.step b { display: block; color: #007e79; margin-bottom: 9px; font-size: 23px; }
+.arrow { align-self: center; color: #1aa59a; font-size: 35px; padding: 0 2px; }
+.track { display: grid; grid-template-columns: 175px 1fr; gap: 12px 25px; align-items: start; }
+.track .who { color: #007e79; font-weight: bold; font-size: 21px; }
+.track .event { border-bottom: 1px solid #d7e0e4; padding-bottom: 10px; font-size: 21px; }
+.phase { border-top: 4px solid #1aa59a; padding-top: 15px; font-size: 22px; }
+.phase strong { display: block; font-size: 29px; color: #007e79; margin-bottom: 10px; }
+.foot { position: absolute; left: 70px; bottom: 25px; color: #6f8590; font-size: 16px; }
+.dark .foot { color: #a6bac3; }
+.sources a { color: #173044; text-decoration: none; }
+.sources li { font-size: 18px; margin-bottom: 12px; overflow-wrap: anywhere; }
+@media screen { body { background: #d9e0e3; } .slide { margin: 20px auto; box-shadow: 0 3px 20px #7893a2; } }
+</style>
+</head>
+<body>
+<section class="slide dark">
+  <div class="eyebrow">Arquitetura de Software · Desafio 09</div>
+  <h1>Funcionalidades sem nova publicação: uma proposta SDUI</h1>
+  <p class="lead">Compatibilidade entre versões, ações controladas e reversão de configurações.</p>
+  <p class="sub" style="margin-top:90px">Jornada de contratação de serviço · PUC Minas · 2026</p>
+  <div class="foot">Equipe: Luiz F. Moreira · Davi Nunes · @karenjoilly11 · @joaovictorz10</div><div class="num">01</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Problema</div><h2>Uma tela muda mais rápido que a base instalada</h2>
+  <div class="cols3">
+    <div class="rule"><h3>Produto</h3><p>Quer alterar formulários e a ordem da jornada sem esperar as lojas.</p></div>
+    <div class="rule"><h3>Aplicativo</h3><p>Versões antigas não conhecem todo componente ou recurso nativo.</p></div>
+    <div class="rule"><h3>Operação</h3><p>Uma configuração errada pode interromper a contratação ou o pagamento.</p></div>
+  </div>
+  <div class="callout">A proposta só compõe componentes e ações já implementados no app.</div>
+  <div class="num">02</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Requisitos</div><h2>O que a solução precisa garantir</h2>
+  <div class="cols">
+    <div class="rule"><h3>Funcionais · RF1–RF5</h3><p>Buscar definições de tela, renderizar componentes conhecidos, segmentar experiências, limitar ações e oferecer fallback.</p></div>
+    <div class="rule"><h3>Não funcionais · RNF1–RNF4</h3><p>Compatibilidade retroativa, restrição de execução remota, rollback rápido e visibilidade de erros, desempenho e disponibilidade.</p></div>
+  </div>
+  <p class="sub" style="margin-top:48px">O grupo adicionou RF6–RF8 e RNF5 para explicitar validação no cliente, capacidades, cache e meta de desempenho.</p>
+  <div class="num">03</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Exemplo concreto</div><h2>Uma mudança na contratação</h2>
+  <div class="cols">
+    <div class="rule"><h3>Revisão anterior</h3><p>Endereço e data desejada.</p><p>Depois, confirmação de pagamento.</p></div>
+    <div class="rule"><h3>Nova revisão</h3><p>Adiciona foto opcional do local antes do pagamento.</p><p>App antigo recebe campo de descrição como alternativa.</p></div>
+  </div>
+  <div class="callout">A foto nativa exige câmera e componente no binário. A composição e o texto mudam no servidor.</div>
+  <div class="num">04</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Diagrama de componentes</div><h2>Quem publica, entrega e executa</h2>
+  <div class="cols3">
+    <div class="rule"><h3>Publicação</h3><p class="small">Publicador valida revisão e matriz de versões.</p><p class="small">Registro guarda histórico imutável.</p><p class="small">Rollout escolhe coorte e oferece kill switch.</p></div>
+    <div class="rule"><h3>Servidor</h3><p class="small">BFF negocia capacidades, seleciona e assina a resposta.</p><p class="small">API de negócio valida e autoriza pagamento.</p></div>
+    <div class="rule"><h3>App</h3><p class="small">Cliente verifica a resposta.</p><p class="small">Renderizador usa catálogo local.</p><p class="small">Cache e tela embutida cobrem falhas.</p></div>
+  </div>
+  <p class="sub" style="margin-top:32px">Publicação → BFF → validação no app → renderização. Ação sensível → API de negócio.</p>
+  <div class="foot">Diagrama completo e editável: diagramas/componentes.md</div><div class="num">05</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Contrato</div><h2>Uma definição estruturada e versionada</h2>
+  <table><tr><th>Parte</th><th>Campos principais</th><th>Regra</th></tr>
+    <tr><td>Envelope</td><td>schemaVersion, screenId, revision, validade, assinatura</td><td>O app rejeita versão ou assinatura incompatível.</td></tr>
+    <tr><td>Componente</td><td>type, v, props, optional, requires, fallback</td><td>Somente catálogo local pode renderizar.</td></tr>
+    <tr><td>Ação</td><td>type, v, params</td><td>Allowlist e schema limitam tipo e parâmetros.</td></tr>
+    <tr><td>Negociação</td><td>appVersion, catalog, actions, capabilities</td><td>O BFF escolhe revisão compatível.</td></tr>
+  </table>
+  <p class="sub" style="margin-top:22px">Campos desconhecidos são tolerados quando opcionais; ação desconhecida é sempre recusada.</p>
+  <div class="num">06</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Fluxo de validação</div><h2>O app valida antes de renderizar</h2>
+  <div class="flow">
+    <div class="step"><b>1. Integridade</b>Assinatura, chave e prazo.</div><div class="arrow">→</div>
+    <div class="step"><b>2. Contrato</b>Schema, estrutura e limites.</div><div class="arrow">→</div>
+    <div class="step"><b>3. Segurança</b>Ações e parâmetros permitidos.</div><div class="arrow">→</div>
+    <div class="step"><b>4. UI</b>Capacidades e componentes.</div>
+  </div>
+  <div class="callout">Falha essencial: última definição válida elegível ou tela embutida. Fallback de componente também passa pela validação.</div>
+  <div class="foot">Fluxo editável: diagramas/validacao.md</div><div class="num">07</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Diagrama de sequência</div><h2>Fluxo principal e exceção</h2>
+  <div class="track">
+    <div class="who">App → BFF</div><div class="event">Solicita tela com versão, catálogo e capacidades.</div>
+    <div class="who">BFF → App</div><div class="event">Seleciona coorte, valida resposta final e envia payload assinado.</div>
+    <div class="who">App</div><div class="event">Verifica; salva definição válida; renderiza componentes locais.</div>
+    <div class="who">App → API</div><div class="event">Pedido de pagamento autenticado; API valida e autoriza.</div>
+    <div class="who">Exceção</div><div class="event">Resposta inválida: cache elegível ou tela embutida; ação proibida não executa.</div>
+  </div>
+  <div class="foot">Diagrama completo e editável: diagramas/sequencia.md</div><div class="num">08</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Compatibilidade</div><h2>Componente novo em um app antigo</h2>
+  <div class="cols3">
+    <div class="rule"><h3>Servidor</h3><p>Negocia o catálogo e prefere uma revisão que o app entenda.</p></div>
+    <div class="rule"><h3>Cliente</h3><p>Se chegar `PhotoUpload` desconhecido, usa `TextField` de descrição.</p></div>
+    <div class="rule"><h3>Último recurso</h3><p>Componente essencial sem alternativa leva à tela embutida.</p></div>
+  </div>
+  <div class="callout">O payload não instala componentes nem libera capacidades nativas ausentes.</div>
+  <div class="num">09</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Segurança</div><h2>O payload não concede autoridade</h2>
+  <div class="cols">
+    <div class="rule"><h3>Antes de mostrar</h3><p>Assinatura sobre JSON canônico, prazo, schema e allowlist de ações.</p><p>Sem script, expressão ou módulo remoto.</p></div>
+    <div class="rule"><h3>Ao executar</h3><p>O app valida a ação novamente.</p><p>A API autentica e autoriza pagamento com regras próprias.</p></div>
+  </div>
+  <div class="callout">`run_script` ou URL fora da política: rejeição da tela e evento de segurança.</div>
+  <div class="num">10</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Operação</div><h2>Rollout por revisão e coorte estável</h2>
+  <div class="cols3">
+    <div class="phase"><strong>Interno</strong>Testar contrato, versões e fallback.</div>
+    <div class="phase"><strong>1%</strong>Canário com alertas por revisão.</div>
+    <div class="phase"><strong>10% → 50% → 100%</strong>Expandir somente após comparar com controle.</div>
+  </div>
+  <p class="sub" style="margin-top:72px">Percentuais e janelas são hipóteses de operação. Pagamento exige aprovação e observação separadas.</p>
+  <div class="num">11</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Recuperação</div><h2>Rollback de configuração problemática</h2>
+  <div class="flow">
+    <div class="step"><b>1</b>Congelar expansão e acionar kill switch.</div><div class="arrow">→</div>
+    <div class="step"><b>2</b>BFF volta à revisão anterior validada.</div><div class="arrow">→</div>
+    <div class="step"><b>3</b>App busca nova política ao abrir tela crítica.</div><div class="arrow">→</div>
+    <div class="step"><b>4</b>Medir exposição e conclusão da jornada.</div>
+  </div>
+  <div class="callout">Meta de 5 min é hipótese para usuários online que rebuscam a tela. Offline e telas já abertas ficam fora dessa garantia.</div>
+  <div class="num">12</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Quadro de decisões</div><h2>Escolhas e custos assumidos</h2>
+  <table class="dense"><tr><th>ID</th><th>Escolha</th><th>Alternativa</th><th>Custo da escolha</th></tr>
+    <tr><td>D1</td><td>SDUI com catálogo fechado</td><td>Release, flags ou WebView</td><td>Governar contrato e versões</td></tr>
+    <tr><td>D2</td><td>BFF escolhe resposta compatível</td><td>App escolhe configuração bruta</td><td>Dependência do BFF</td></tr>
+    <tr><td>D3</td><td>Fallback por componente</td><td>Falhar a tela inteira</td><td>Exige classificar o que é essencial</td></tr>
+    <tr><td>D4</td><td>Assinatura + TLS</td><td>Apenas TLS</td><td>Chaves e canonização</td></tr>
+  </table>
+  <p class="sub" style="margin-top:24px">Telas críticas usam regra mais restrita. A API de negócio autoriza operações sensíveis independentemente da escolha de UI.</p>
+  <div class="num">13</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Quadro de falhas</div><h2>Impacto, detecção e recuperação</h2>
+  <table class="dense"><tr><th>ID</th><th>Falha e impacto</th><th>Sinal</th><th>Recuperação</th></tr>
+    <tr><td>F1</td><td>Componente novo em app antigo</td><td>Fallback por versão</td><td>Alternativa de componente</td></tr>
+    <tr><td>F2</td><td>Ação ou assinatura inválida</td><td>Rejeição de validação</td><td>Bloquear revisão; tela segura</td></tr>
+    <tr><td>F3</td><td>Pagamento travado</td><td>Queda de conclusão</td><td>Kill switch; revisão anterior</td></tr>
+    <tr><td>F4</td><td>BFF ou rede fora</td><td>Busca indisponível</td><td>Cache elegível ou tela embutida</td></tr>
+    <tr><td>F5</td><td>Segmentação errada</td><td>Revisão incompatível</td><td>Rejeitar e corrigir política</td></tr>
+  </table>
+  <div class="num">14</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Observabilidade</div><h2>Métricas que orientam a resposta</h2>
+  <div class="cols3">
+    <div class="rule"><h3>Qualidade</h3><p class="small">Rejeição de payload e taxa de fallback por revisão e versão.</p></div>
+    <div class="rule"><h3>Experiência</h3><p class="small">Disponibilidade da busca, p95 até renderizar e conclusão de pagamento.</p></div>
+    <div class="rule"><h3>Reversão</h3><p class="small">Exposição da revisão revogada após kill switch; ações recusadas.</p></div>
+  </div>
+  <p class="sub" style="margin-top:52px">Exemplo de limiar hipotético: p95 acima de 1 s ou rejeição acima de 1% pausa o canário. Definir linha de base em piloto.</p>
+  <div class="num">15</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Referências técnicas</div><h2>Fontes consultadas</h2>
+  <ul class="sources">
+    <li>RFC 8785, JSON Canonicalization Scheme — <a href="https://www.rfc-editor.org/rfc/rfc8785.html">rfc-editor.org/rfc/rfc8785.html</a></li>
+    <li>JSON Schema — <a href="https://json-schema.org/docs">json-schema.org/docs</a></li>
+    <li>OWASP MASVS-AUTH — <a href="https://mas.owasp.org/MASVS/07-MASVS-AUTH/">mas.owasp.org/MASVS/07-MASVS-AUTH/</a></li>
+    <li>OWASP ASVS — <a href="https://asvs.owasp.org/">asvs.owasp.org</a></li>
+    <li>Firebase Remote Config, rollouts — <a href="https://firebase.google.com/docs/remote-config/rollouts">firebase.google.com/docs/remote-config/rollouts</a></li>
+    <li>OpenTelemetry, signals — <a href="https://opentelemetry.io/docs/concepts/signals/">opentelemetry.io/docs/concepts/signals/</a></li>
+  </ul>
+  <p class="sub" style="margin-top:28px">Tempos, percentuais e limites apresentados são hipóteses da proposta, sem medição.</p>
+  <div class="num">16</div>
+</section>
+</body>
+</html>

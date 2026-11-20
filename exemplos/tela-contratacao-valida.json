@@ -1,4 +1,5 @@
 {
+  "_comentario": "Exemplo estruturalmente válido do contrato. Datas e assinatura são ilustrativas; para validação criptográfica real, o BFF deve emitir prazo atual e assinatura verificável.",
   "envelope": {
     "schemaVersion": "1.2",
     "screenId": "contratacao.dados",

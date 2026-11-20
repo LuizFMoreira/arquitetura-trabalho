@@ -1,6 +1,6 @@
 # Plano de trabalho — Desafio 09 (SDUI)
 
-Objetivo: 25/25. A nota premia **coerência** entre requisitos, diagramas, decisões e falhas, não volume. Todo documento deve referenciar os mesmos IDs (RF1–5, RNF1–4, D1–Dn, F1–Fn).
+Objetivo: cobrir os 25 pontos possíveis. A nota premia **coerência** entre requisitos, diagramas, decisões e falhas, não volume. Todo documento deve referenciar os mesmos IDs (RF1–8, RNF1–5, D1–Dn, F1–Fn, M1–Mn). RF6–8 e RNF5 são extensões propostas pelo grupo.
 
 ## Mapa nota → entrega
 
@@ -28,42 +28,43 @@ Objetivo: 25/25. A nota premia **coerência** entre requisitos, diagramas, decis
 - [ ] Todos os 4 aceitaram o convite do repositório (faltam Davii13 e a 4ª pessoa).
 - [x] Estrutura de pastas + README + este plano commitados.
 - [x] Cenário concreto definido: jornada de *contratação de serviço* com formulário e pagamento (tela crítica). Equipe ainda precisa confirmar.
-- [ ] Definir formato dos slides (sugestão: Marp ou Google Slides → PDF).
+- [x] Definir formato dos slides: HTML editável → PDF.
 - [ ] Dividir responsáveis (abaixo).
 
 ### Fase 1 — Fundamentos
 - [x] `01-problema-requisitos`: RF/RNF, restrições, hipóteses, riscos e glossário (revisado após avaliação do professor).
-- [ ] `referencias.md` com fontes verificadas (rodar `analista-mercado`).
+- [x] `referencias.md` com fontes primárias verificadas.
 - [ ] Revisão do `arquiteto-senior` sobre o 01.
 - **Gate:** `professor-avaliador` na fase.
 
 ### Fase 2 — Núcleo da arquitetura
-- [ ] `02-contrato-sdui`: schema de tela, componente, ação, versão; regra de campos desconhecidos; `minAppVersion` / `requiredCapabilities`.
-- [ ] Catálogo de componentes com versão e fallback por componente.
-- [ ] `03-arquitetura` + diagrama de componentes.
-- [ ] Modelo de segurança: allowlist de ações tipadas, assinatura do payload, validação de schema, autorização no backend.
-- [ ] Exemplos JSON em `exemplos/` (tela válida, inválida, componente novo em app antigo).
+- [x] `02-contrato-sdui`: schema de tela, componente, ação, versão; regra de campos desconhecidos; negociação de capacidades em vez de `minAppVersion` rígida.
+- [x] Catálogo de componentes com versão e fallback por componente.
+- [x] `03-arquitetura` + diagrama de componentes.
+- [x] Modelo de segurança: allowlist de ações tipadas, assinatura do payload, validação de schema, autorização no backend.
+- [x] Exemplos JSON ilustrativos em `exemplos/` (tela válida, inválida, componente novo em app antigo).
 - **Gate:** `arquiteto-senior` + `professor-avaliador`.
 
 ### Fase 3 — Fluxos, operação e falhas
-- [ ] `04-fluxos`: busca → validação → renderização → erro; diagrama de sequência (principal + exceção).
-- [ ] `05-rollout-rollback`: canário por % / segmento / versão, kill switch, última config boa em cache, **exemplo de mudança de jornada sem publicar versão**.
-- [ ] `06-decisoes`: usar 3–4 decisões (ex.: JSON próprio × GraphQL/protocolo existente; validação no cliente × só no servidor; fallback por componente × por tela; payload assinado × TLS apenas).
-- [ ] `07-falhas`: 5 falhas com impacto, detecção e recuperação.
-- [ ] `08-metricas-alertas`: métrica, limiar (como **hipótese**), alerta, ação.
+- [x] `04-fluxos`: busca → validação → renderização → erro; diagrama de sequência (principal + exceção).
+- [x] `05-rollout-rollback`: canário por % / segmento / versão, kill switch, última config boa em cache, **exemplo de mudança de jornada sem publicar versão**.
+- [x] `06-decisoes`: 4 decisões com alternativas e trade-offs.
+- [x] `07-falhas`: 5 falhas com impacto, detecção e recuperação.
+- [x] `08-metricas-alertas`: métrica, limiar como **hipótese**, alerta, ação.
 - **Gate:** `arquiteto-senior` + `professor-avaliador`.
 
 ### Fase 4 — Slides e roteiro
-- [ ] Rascunho dos slides (12–16 de conteúdo).
+- [x] Apresentação de 16 slides em `slides/apresentacao.html` e PDF.
 - [ ] Revisão do `apresentacao-senior`.
-- [ ] Roteiro + banco de Q&A (`roteirista-senior`) em `slides/roteiro.md`.
+- [x] Roteiro + banco de Q&A em `slides/roteiro.md`.
 - [ ] Divisão das falas entre os 4.
 
 ### Fase 5 — Ensaio e entrega
 - [ ] Ensaio cronometrado ≥ 2x (alvo 18–19 min).
 - [ ] **Arguição cruzada**: cada um responde sobre a parte dos outros.
 - [ ] Rodada final do `professor-avaliador`.
-- [ ] Exportar PDF, conferir referências, tag no git `entrega`.
+- [x] Exportar PDF e registrar referências técnicas.
+- [ ] Conferir nomes e links com a equipe; após ensaio, criar tag no git `entrega`.
 
 ## Divisão sugerida (preencher nomes)
 
